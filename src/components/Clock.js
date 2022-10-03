@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
-export const Clock = () => {
+export const Clock = (csvBlob) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+  const [availableTimeQuotes, setAvailableTimeQuotes] = useState([]);
   const [currentTimeQuote, setCurrentTimeQuote] = useState('string');
 
   useEffect(() => {
@@ -13,15 +14,12 @@ export const Clock = () => {
     }
 
     const timer = setInterval(updateTime, 1000);
-
-    return function cleanup() {
-      clearInterval(timer);
-    };
   }, [currentTime]);
 
   useEffect(() => {
-    setCurrentTimeQuote(currentTime);
-    console.log('updated');
+    const rows = csvBlob.split('\n');
+    // const availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime)
+    console.log(csvBlob);
   }, [currentTime]);
 
   return (

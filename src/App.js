@@ -10,7 +10,7 @@ function App() {
       <header className="App-header">
         What time is it?
       </header>
-      <Clock />
+      <Clock csvBlob={csvBlob} />
     </div>
   );
 }
