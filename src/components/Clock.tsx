@@ -29,7 +29,7 @@ export const Clock = () => {
 
   useEffect(() => {
      const rows = csvBlob?.split('\n');
-     const availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime)
+     const availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime && getValueFromCSVRow(row, 5) !== 'nsfw')
      console.log(availableTimeRows);
      if (availableTimeRows.length === 0) {
       setCurrentTimeQuote(null)
