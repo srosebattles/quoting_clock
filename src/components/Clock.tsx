@@ -1,9 +1,10 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 
 export const Clock = (csvBlob) => {
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+  const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
   const [availableTimeQuotes, setAvailableTimeQuotes] = useState([]);
-  const [currentTimeQuote, setCurrentTimeQuote] = useState('string');
+  const [currentTimeQuote, setCurrentTimeQuote] = useState<string>('string');
 
   useEffect(() => {
     const updateTime = () => {
@@ -23,12 +24,10 @@ export const Clock = (csvBlob) => {
   }, [currentTime]);
 
   return (
-    <>
     <span>
       {currentTime}
       <br/>
       {currentTimeQuote}
     </span>
-    </>
   );
 }
