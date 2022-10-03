@@ -14,7 +14,6 @@
       "resolveJsonModule": true,
       "jsx": "react",
       "allowJs": true,
-      "moduleResolution": "classic",
       "sourceMap": true
     },
     "include": ["./src/**/*", "./custom.d.ts"],

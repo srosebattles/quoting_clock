@@ -1,10 +1,20 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { CsvGetter } from './CsvGetter';
 
-export const Clock = (csvBlob) => {
+export const Clock = () => {
+  const csvBlob = CsvGetter();
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
-  const [availableTimeQuotes, setAvailableTimeQuotes] = useState([]);
-  const [currentTimeQuote, setCurrentTimeQuote] = useState<string>('string');
+  const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>('string');
+
+  const getValueFromCSVRow = (row: string, desiredVal: number) => {
+    const values = row.split('|');
+    return values[desiredVal]
+  }
+
+  const getRandomCSVRow = (rowsArray: string[]) => {
+    return rowsArray[Math.floor(Math.random()*rowsArray.length)];
+  }
 
   useEffect(() => {
     const updateTime = () => {
@@ -18,16 +28,31 @@ export const Clock = (csvBlob) => {
   }, [currentTime]);
 
   useEffect(() => {
-    const rows = csvBlob.split('\n');
-    // const availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime)
-    console.log(csvBlob);
-  }, [currentTime]);
+     const rows = csvBlob?.split('\n');
+     const availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime)
+     console.log(availableTimeRows);
+     if (availableTimeRows.length === 0) {
+      setCurrentTimeQuote(null)
+     } else if (availableTimeRows.length === 1) {
+      setCurrentTimeQuote(availableTimeRows[0])
+     } else {
+      setCurrentTimeQuote(getRandomCSVRow(availableTimeRows))
+     }
+  }, [currentTime, csvBlob]);
 
   return (
     <span>
-      {currentTime}
+      {currentTimeQuote ? 
+      <span>
+      {getValueFromCSVRow(currentTimeQuote, 2)}
       <br/>
-      {currentTimeQuote}
+      -{getValueFromCSVRow(currentTimeQuote, 3)} by {getValueFromCSVRow(currentTimeQuote, 4)}
+      </span>
+      :
+      <span>
+      {currentTime}
+      </span>
+}
     </span>
   );
 }
