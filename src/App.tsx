@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { Clock } from './components/Clock'
-import { AppContext } from './components/AppContext';
+import { Clock } from './components/Clock/Clock'
+import { AppContext } from './AppContext';
 import './App.css';
 
 

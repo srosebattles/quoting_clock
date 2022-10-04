@@ -1,21 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { AppContext } from './AppContext';
-import { CsvGetter } from './CsvGetter';
+import { AppContext } from '../../AppContext';
+import { GetCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
 
 export const Clock = () => {
-  const csvBlob = CsvGetter();
+  const csvBlob = GetCSVBlob();
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
   const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>('string');
   const {showPG13} = useContext(AppContext);
-
-  const getValueFromCSVRow = (row: string, desiredVal: number) => {
-    const values = row.split('|');
-    return values[desiredVal]
-  }
-
-  const getRandomCSVRow = (rowsArray: string[]) => {
-    return rowsArray[Math.floor(Math.random()*rowsArray.length)];
-  }
 
   useEffect(() => {
     const updateTime = () => {
