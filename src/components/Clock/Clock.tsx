@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
-import { GetCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
+import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
 
 export const Clock = () => {
-  const csvBlob = GetCSVBlob();
+  const csvBlob = useCSVBlob();
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
   const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>('string');
   const {showPG13} = useContext(AppContext);

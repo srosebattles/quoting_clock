@@ -1,7 +1,7 @@
 import { useState } from "react";
 import quoting_clock_quotes from './srb_litclock_annotated.csv';
 
-export const GetCSVBlob = () => {
+export const useCSVBlob = () => {
     const [data, setData] = useState('');
 
     const getCsv = () => fetch(quoting_clock_quotes)
