@@ -1,6 +1,6 @@
 ## Quoting Clock
 
-This is a clock that tells the time by displaying a quote from a book which mentions that time. This is not an original idea - it started over at the Guardian in 2011 and has been iterated on countless times.
+This is a clock that tells the time by displaying a quote from a book which mentions that time. This is not an original idea - it started over at the Guardian in 2011 and has been iterated on countless times, with special thanks to JohannesNE over at https://github.com/JohannesNE/literature-clock.
 
 This version? This version is mine.
 

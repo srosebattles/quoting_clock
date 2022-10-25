@@ -10,16 +10,16 @@ function App() {
 
   return (
     <AppContext.Provider value={{showPG13}}>
-    <div className="App">
-      <header className="App-header">
-        What time is it?
-      </header>
+      <div className='imgDiv' />
       <Clock />
-      <br />
+      <div className='buttonDiv'>
       <button onClick={() => setShowPG13(!showPG13)}>
         {showPG13 ? <span>hide PG-13 quotes</span> : <span>show PG-13 quotes</span>}
       </button>
-    </div>
+      </div>
+      <div className='attrDiv'>
+        Thanks to JohannesNE for creating and maintaining the project that inspired this one; thanks to KELLEPICS for the image
+      </div>
     </AppContext.Provider>
   );
 }

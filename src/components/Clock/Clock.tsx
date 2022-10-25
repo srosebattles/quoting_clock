@@ -5,8 +5,10 @@ import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
 export const Clock = () => {
   const csvBlob = useCSVBlob();
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
-  const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>('string');
+  const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>(null);
   const {showPG13} = useContext(AppContext);
+
+  const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
 
   useEffect(() => {
     const updateTime = () => {
@@ -40,18 +42,18 @@ export const Clock = () => {
   }, [currentTime, csvBlob, showPG13]);
 
   return (
-    <span>
+    <div className='quoteDiv'>
       {currentTimeQuote ? 
       <span>
-      {getValueFromCSVRow(currentTimeQuote, 2)}
+      {renderHTML(getValueFromCSVRow(currentTimeQuote, 2))}
       <br/>
       -{getValueFromCSVRow(currentTimeQuote, 3)} by {getValueFromCSVRow(currentTimeQuote, 4)}
       </span>
       :
       <span>
-      {currentTime}, no quote to display at the moment
+      The time is {currentTime}, no quote to display at the moment
       </span>
 }
-    </span>
+    </div>
   );
 }
