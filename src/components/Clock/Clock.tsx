@@ -31,7 +31,6 @@ export const Clock = () => {
       availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime && getValueFromCSVRow(row, 5) !== 'nsfw')
      }
 
-     console.log(availableTimeRows);
      if (availableTimeRows.length === 0) {
       setCurrentTimeQuote(null)
      } else if (availableTimeRows.length === 1) {
@@ -45,13 +44,13 @@ export const Clock = () => {
     <div className='quoteDiv'>
       {currentTimeQuote ? 
       <span>
-      {renderHTML(getValueFromCSVRow(currentTimeQuote, 2))}
+      {renderHTML(getValueFromCSVRow(currentTimeQuote, 2).replace(new RegExp(getValueFromCSVRow(currentTimeQuote, 1), "gi"), (match) => `<strong>${match}</strong>`))}
       <br/>
       -{getValueFromCSVRow(currentTimeQuote, 3)} by {getValueFromCSVRow(currentTimeQuote, 4)}
       </span>
       :
       <span>
-      The time is {currentTime}, no quote to display at the moment
+      The time is {currentTime}, there's no quote to display at the moment.
       </span>
 }
     </div>

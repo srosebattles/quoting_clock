@@ -18,7 +18,7 @@ function App() {
       </button>
       </div>
       <div className='attrDiv'>
-        Thanks to JohannesNE for creating and maintaining the project that inspired this one; thanks to KELLEPICS for the image
+        Thanks to <a href="https://github.com/JohannesNE/literature-clock/">JohannesNE</a> for creating and maintaining the project that inspired this one; thanks to <a href="https://pixabay.com/photos/fantasy-time-magic-clock-dream-3517206/">KELLEPICS</a> for the image
       </div>
     </AppContext.Provider>
   );
