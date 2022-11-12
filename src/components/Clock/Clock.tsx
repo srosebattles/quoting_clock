@@ -10,7 +10,7 @@ export const Clock = () => {
 
   const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
 
-  // const howManyAuthors = (array) => { return array.filter((item, index) => array.indexOf(item) === index)}
+  const howManyAuthors = (array) => { return array.filter((item, index) => array.indexOf(item) === index)}
 
   useEffect(() => {
     const updateTime = () => {
@@ -25,8 +25,8 @@ export const Clock = () => {
 
   useEffect(() => {
      const rows = csvBlob?.split('\n');
-    //  const authors = rows.map(row => getValueFromCSVRow(row, 0))
-    //  console.log(howManyAuthors(authors))
+     const authors = rows.map(row => getValueFromCSVRow(row, 4))
+     console.log(howManyAuthors(authors))
      let availableTimeRows = ['']
 
      if (showPG13) {
