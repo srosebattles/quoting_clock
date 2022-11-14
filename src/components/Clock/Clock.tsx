@@ -25,7 +25,7 @@ export const Clock = () => {
 
   useEffect(() => {
      const rows = csvBlob?.split('\n');
-     const authors = rows.map(row => getValueFromCSVRow(row, 4))
+     const authors = rows.map(row => getValueFromCSVRow(row, 0))
      console.log(howManyAuthors(authors))
      let availableTimeRows = ['']
 
