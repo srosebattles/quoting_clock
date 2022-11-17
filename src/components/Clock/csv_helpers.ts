@@ -21,3 +21,16 @@ export const getValueFromCSVRow = (row: string, desiredVal: number) => {
 export const getRandomCSVRow = (rowsArray: string[]) => {
     return rowsArray[Math.floor(Math.random()*rowsArray.length)];
 }
+
+export const getHowManyAuthors = (array) => { return array.filter((item, index) => array.indexOf(item) === index)}
+
+export const getNumOfTimes = (array) => {
+    let found = {}
+    if (array) {
+        for (let i = 0; i < array.length; i++) {
+            let keys = array[i]
+            found[keys] = ++found[array[i]] || 1
+        }
+    }
+    return found
+}
