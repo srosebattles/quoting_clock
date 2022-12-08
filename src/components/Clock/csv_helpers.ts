@@ -25,7 +25,7 @@ export const getRandomCSVRow = (rowsArray: string[]) => {
 export const getHowManyAuthors = (array) => { return array.filter((item, index) => array.indexOf(item) === index)}
 
 export const getNumOfTimes = (array) => {
-    let found = {}
+    let found = []
     if (array) {
         for (let i = 0; i < array.length; i++) {
             let keys = array[i]
