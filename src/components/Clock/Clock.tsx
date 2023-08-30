@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
-import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow, getNumOfTimes, getHowManyAuthors } from './csv_helpers';
+import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow, 
+ // getNumOfTimes, getHowManyAuthors 
+} from './csv_helpers';
 
 export const Clock = () => {
   const csvBlob = useCSVBlob();
@@ -23,7 +25,7 @@ export const Clock = () => {
 
   useEffect(() => {
      const rows = csvBlob?.split('\n');
-    //  const authors = rows.map((row, _index) => getValueFromCSVRow(row, 3))
+    //  const authors = rows.map((row, _index) => getValueFromCSVRow(row, 0))
     //  console.log(getNumOfTimes(authors))
     //  console.log(getHowManyAuthors(authors))
      let availableTimeRows = ['']
