@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.edbd4aea.css",
-    "main.js": "/static/js/main.6f3bc32e.js",
+    "main.js": "/static/js/main.d314fe7f.js",
     "static/js/787.72b21acd.chunk.js": "/static/js/787.72b21acd.chunk.js",
     "static/media/srb_litclock_annotated.csv": "/static/media/srb_litclock_annotated.3ec5fa065435dbac2bfc.csv",
     "static/media/fantasyClock.jpg": "/static/media/fantasyClock.504399d53a2afe3fddb9.jpg",
     "index.html": "/index.html",
     "main.edbd4aea.css.map": "/static/css/main.edbd4aea.css.map",
-    "main.6f3bc32e.js.map": "/static/js/main.6f3bc32e.js.map",
+    "main.d314fe7f.js.map": "/static/js/main.d314fe7f.js.map",
     "787.72b21acd.chunk.js.map": "/static/js/787.72b21acd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.edbd4aea.css",
-    "static/js/main.6f3bc32e.js"
+    "static/js/main.d314fe7f.js"
   ]
 }
