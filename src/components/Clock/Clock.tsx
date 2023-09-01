@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
-import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow, 
+import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow, countWords,
  // getNumOfTimes, getHowManyAuthors 
 } from './csv_helpers';
 
@@ -25,7 +25,12 @@ export const Clock = () => {
 
   useEffect(() => {
      const rows = csvBlob?.split('\n');
-    //  const authors = rows.map((row, _index) => getValueFromCSVRow(row, 0))
+     const authors = rows.map((row, _index) => getValueFromCSVRow(row, 2))
+     const longQuotes = authors.filter((string) => countWords(string) < 45);
+     const quotesWithWordcount = longQuotes.map((quote, _index)=> quote.concat(` ${countWords(quote)}`))
+     
+
+     console.log(quotesWithWordcount);
     //  console.log(getNumOfTimes(authors))
     //  console.log(getHowManyAuthors(authors))
      let availableTimeRows = ['']

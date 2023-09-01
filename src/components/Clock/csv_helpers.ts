@@ -34,3 +34,9 @@ export const getNumOfTimes = (array) => {
     }
     return found
 }
+
+export const countWords = (str) => {
+    str = str?.trim();
+    const words = str?.match(/\S+/g);
+    return words?.length;
+  };
