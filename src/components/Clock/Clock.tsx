@@ -26,7 +26,7 @@ export const Clock = () => {
   useEffect(() => {
      const rows = csvBlob?.split('\n');
      const authors = rows.map((row, _index) => getValueFromCSVRow(row, 2))
-     const longQuotes = authors.filter((string) => countWords(string) < 45);
+     const longQuotes = authors.filter((string) => countWords(string) > 110);
      const quotesWithWordcount = longQuotes.map((quote, _index)=> quote.concat(` ${countWords(quote)}`))
      
 
