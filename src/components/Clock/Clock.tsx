@@ -13,8 +13,6 @@ export const Clock = () => {
   const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>(null);
   const {showPG13} = useContext(AppContext);
 
-  const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
-
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
@@ -38,16 +36,17 @@ export const Clock = () => {
 
   return (
     <div className='quoteDiv'>
-      {currentTimeQuote ? 
-      <span>
-      {renderHTML(highlightTimePhrase(getValueFromCSVRow(currentTimeQuote, 2), getValueFromCSVRow(currentTimeQuote, 1)))}
-      <br/>
-      -{getValueFromCSVRow(currentTimeQuote, 3)} by {getValueFromCSVRow(currentTimeQuote, 4)}
-      </span>
+      {currentTimeQuote ?
+      <>
+      <blockquote dangerouslySetInnerHTML={{ __html: highlightTimePhrase(getValueFromCSVRow(currentTimeQuote, 2), getValueFromCSVRow(currentTimeQuote, 1)) }} />
+      <p className='quoteAttribution'>
+        —<cite>{getValueFromCSVRow(currentTimeQuote, 3)}</cite> by {getValueFromCSVRow(currentTimeQuote, 4)}
+      </p>
+      </>
       :
-      <span>
-      The time is {currentTime}, there's no quote to display at the moment.
-      </span>
+      <p>
+      The time is <time dateTime={currentTime}>{currentTime}</time>, there's no quote to display at the moment.
+      </p>
 }
     </div>
   );

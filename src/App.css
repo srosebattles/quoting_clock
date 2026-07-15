@@ -16,6 +16,15 @@
     font-size: 16px;
   }
 
+  .quoteDiv blockquote,
+  .quoteDiv p {
+    margin: 0;
+  }
+
+  .quoteDiv .quoteAttribution {
+    margin-top: 8px;
+  }
+
   .buttonDiv {
     display: flex;
     justify-content: center;
