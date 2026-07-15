@@ -2,6 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
 import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
 
+const escapeRegExp = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const highlightTimePhrase = (quote: string, timePhrase: string) =>
+  quote.replace(new RegExp(escapeRegExp(timePhrase), "gi"), (match) => `<strong>${match}</strong>`);
+
 export const Clock = () => {
   const csvBlob = useCSVBlob();
   const [currentTime, setCurrentTime] = useState<string>(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
@@ -35,7 +40,7 @@ export const Clock = () => {
     <div className='quoteDiv'>
       {currentTimeQuote ? 
       <span>
-      {renderHTML(getValueFromCSVRow(currentTimeQuote, 2).replace(new RegExp(getValueFromCSVRow(currentTimeQuote, 1), "gi"), (match) => `<strong>${match}</strong>`))}
+      {renderHTML(highlightTimePhrase(getValueFromCSVRow(currentTimeQuote, 2), getValueFromCSVRow(currentTimeQuote, 1)))}
       <br/>
       -{getValueFromCSVRow(currentTimeQuote, 3)} by {getValueFromCSVRow(currentTimeQuote, 4)}
       </span>
