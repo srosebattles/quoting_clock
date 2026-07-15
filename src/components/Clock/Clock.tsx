@@ -1,8 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
-import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow, countWords,
- // getNumOfTimes, getHowManyAuthors 
-} from './csv_helpers';
+import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
+
+const escapeRegExp = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const highlightTimePhrase = (quote: string, timePhrase: string) =>
+  quote.replace(new RegExp(escapeRegExp(timePhrase), "gi"), (match) => `<strong>${match}</strong>`);
 
 export const Clock = () => {
   const csvBlob = useCSVBlob();
@@ -10,41 +13,22 @@ export const Clock = () => {
   const [currentTimeQuote, setCurrentTimeQuote] = useState<string | null>(null);
   const {showPG13} = useContext(AppContext);
 
-  const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
-    const updateTime = () => {
-      const updatedTime = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
-      if (updatedTime !== currentTime){
-        setCurrentTime(updatedTime);
-      }
-    }
-
-    const timer = setInterval(updateTime, 1000);
-  }, [currentTime]);
-
-  useEffect(() => {
-     const rows = csvBlob?.split('\n');
-     const authors = rows.map((row, _index) => getValueFromCSVRow(row, 2))
-     const longQuotes = authors.filter((string) => countWords(string) > 110);
-     const quotesWithWordcount = longQuotes.map((quote, _index)=> quote.concat(` ${countWords(quote)}`))
-     
-
-     console.log(quotesWithWordcount);
-    //  console.log(getNumOfTimes(authors))
-    //  console.log(getHowManyAuthors(authors))
-     let availableTimeRows = ['']
-
-     if (showPG13) {
-      availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime)
-     } else {
-      availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime && getValueFromCSVRow(row, 5) !== 'nsfw')
-     }
+     const rows = csvBlob.split('\n');
+     const availableTimeRows = rows.filter(row =>
+       row.substring(0,5) === currentTime && (showPG13 || getValueFromCSVRow(row, 5) !== 'nsfw')
+     );
 
      if (availableTimeRows.length === 0) {
       setCurrentTimeQuote(null)
-     } else if (availableTimeRows.length === 1) {
-      setCurrentTimeQuote(availableTimeRows[0])
      } else {
       setCurrentTimeQuote(getRandomCSVRow(availableTimeRows))
      }
@@ -52,16 +36,17 @@ export const Clock = () => {
 
   return (
     <div className='quoteDiv'>
-      {currentTimeQuote ? 
-      <span>
-      {renderHTML(getValueFromCSVRow(currentTimeQuote, 2).replace(new RegExp(getValueFromCSVRow(currentTimeQuote, 1), "gi"), (match) => `<strong>${match}</strong>`))}
-      <br/>
-      -{getValueFromCSVRow(currentTimeQuote, 3)} by {getValueFromCSVRow(currentTimeQuote, 4)}
-      </span>
+      {currentTimeQuote ?
+      <>
+      <blockquote dangerouslySetInnerHTML={{ __html: highlightTimePhrase(getValueFromCSVRow(currentTimeQuote, 2), getValueFromCSVRow(currentTimeQuote, 1)) }} />
+      <p className='quoteAttribution'>
+        —<cite>{getValueFromCSVRow(currentTimeQuote, 3)}</cite> by {getValueFromCSVRow(currentTimeQuote, 4)}
+      </p>
+      </>
       :
-      <span>
-      The time is {currentTime}, there's no quote to display at the moment.
-      </span>
+      <p>
+      The time is <time dateTime={currentTime}>{currentTime}</time>, there's no quote to display at the moment.
+      </p>
 }
     </div>
   );
