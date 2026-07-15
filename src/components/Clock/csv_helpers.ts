@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import quoting_clock_quotes from './srb_litclock_annotated.csv';
 import quoting_clock_quotes from './litclock_for_editing.csv';
 
 export const useCSVBlob = () => {
     const [data, setData] = useState('');
 
-    const getCsv = () => fetch(quoting_clock_quotes)
-    .then( response => response.text() )
-    .then( responseText => setData(responseText));
+    useEffect(() => {
+        let cancelled = false;
 
-    getCsv();
+        fetch(quoting_clock_quotes)
+            .then(response => response.text())
+            .then(responseText => {
+                if (!cancelled) {
+                    setData(responseText);
+                }
+            })
+            .catch(error => console.error('Failed to load quotes:', error));
+
+        return () => { cancelled = true; };
+    }, []);
 
     return data;
 }
