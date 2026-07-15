@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AppContext } from '../../AppContext';
-import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow, countWords,
- // getNumOfTimes, getHowManyAuthors 
-} from './csv_helpers';
+import { useCSVBlob, getRandomCSVRow, getValueFromCSVRow } from './csv_helpers';
 
 export const Clock = () => {
   const csvBlob = useCSVBlob();
@@ -21,27 +19,13 @@ export const Clock = () => {
   }, []);
 
   useEffect(() => {
-     const rows = csvBlob?.split('\n');
-     const authors = rows.map((row, _index) => getValueFromCSVRow(row, 2))
-     const longQuotes = authors.filter((string) => countWords(string) > 110);
-     const quotesWithWordcount = longQuotes.map((quote, _index)=> quote.concat(` ${countWords(quote)}`))
-     
-
-     console.log(quotesWithWordcount);
-    //  console.log(getNumOfTimes(authors))
-    //  console.log(getHowManyAuthors(authors))
-     let availableTimeRows = ['']
-
-     if (showPG13) {
-      availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime)
-     } else {
-      availableTimeRows = rows.filter(row => row.substring(0,5) === currentTime && getValueFromCSVRow(row, 5) !== 'nsfw')
-     }
+     const rows = csvBlob.split('\n');
+     const availableTimeRows = rows.filter(row =>
+       row.substring(0,5) === currentTime && (showPG13 || getValueFromCSVRow(row, 5) !== 'nsfw')
+     );
 
      if (availableTimeRows.length === 0) {
       setCurrentTimeQuote(null)
-     } else if (availableTimeRows.length === 1) {
-      setCurrentTimeQuote(availableTimeRows[0])
      } else {
       setCurrentTimeQuote(getRandomCSVRow(availableTimeRows))
      }
