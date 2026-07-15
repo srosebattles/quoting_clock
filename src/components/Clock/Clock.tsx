@@ -13,15 +13,12 @@ export const Clock = () => {
   const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
 
   useEffect(() => {
-    const updateTime = () => {
-      const updatedTime = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
-      if (updatedTime !== currentTime){
-        setCurrentTime(updatedTime);
-      }
-    }
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+    }, 1000);
 
-    const timer = setInterval(updateTime, 1000);
-  }, [currentTime]);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
      const rows = csvBlob?.split('\n');
