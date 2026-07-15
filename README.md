@@ -52,9 +52,6 @@ To add a quote, append a line in that format. A literal `|` inside any field
 will break the column parsing, so don't use one. If several quotes share a
 time, one is picked at random each minute.
 
-`src/components/Clock/srb_litclock_annotated.csv` is an earlier working copy of
-the dataset and isn't used by the app.
-
 ## Credits
 
 - [JohannesNE/literature-clock](https://github.com/JohannesNE/literature-clock)
