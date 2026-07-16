@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import quoting_clock_quotes from './litclock_for_editing.csv';
+import quoting_clock_quotes from './litclock.csv';
 
 export const useCSVBlob = () => {
     const [data, setData] = useState('');

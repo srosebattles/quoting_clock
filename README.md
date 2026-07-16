@@ -35,7 +35,7 @@ https://quotingclock.com (the domain is configured via `public/CNAME`).
 
 ## Quote data
 
-The quotes live in `src/components/Clock/litclock_for_editing.csv`. Despite the
+The quotes live in `src/components/Clock/litclock.csv`. Despite the
 `.csv` extension, the file is **pipe-delimited** (quotes routinely contain
 commas), one quote per line, with these columns:
 
@@ -54,7 +54,20 @@ time, one is picked at random each minute.
 
 ## Credits
 
-- [JohannesNE/literature-clock](https://github.com/JohannesNE/literature-clock)
-  for the project (and dataset) that inspired this one.
-- [KELLEPICS on Pixabay](https://pixabay.com/photos/fantasy-time-magic-clock-dream-3517206/)
-  for the clock image.
+- The quotation dataset is adapted from
+  [JohannesNE/literature-clock](https://github.com/JohannesNE/literature-clock)
+  by Johannes Enevoldsen, licensed under
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). It has
+  been modified here (quotes added, removed, edited, and re-annotated with
+  sfw/nsfw ratings).
+- The concept of a clock told through literary quotations originated with a
+  2011 project at The Guardian.
+- The clock image is by
+  [KELLEPICS on Pixabay](https://pixabay.com/photos/fantasy-time-magic-clock-dream-3517206/).
+
+## License
+
+This project — both its source code and its quotation dataset — is licensed
+under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/),
+inherited from the upstream dataset's share-alike terms. See
+[`LICENSE`](./LICENSE) for details and full attribution.

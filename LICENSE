@@ -1,0 +1,71 @@
+Quoting Clock
+
+Copyright (c) 2022-2026 srosebattles (https://quotingclock.com)
+
+This work — including both its source code and its curated collection of
+literary quotations — is licensed under the Creative Commons
+Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
+
+You are free to:
+
+  - Share  — copy and redistribute the material in any medium or format.
+  - Adapt  — remix, transform, and build upon the material for any
+             purpose, even commercially.
+
+Under the following terms:
+
+  - Attribution — You must give appropriate credit, provide a link to
+    the license, and indicate if changes were made. You may do so in any
+    reasonable manner, but not in any way that suggests the licensor
+    endorses you or your use.
+  - ShareAlike — If you remix, transform, or build upon the material,
+    you must distribute your contributions under the same license as the
+    original.
+  - No additional restrictions — You may not apply legal terms or
+    technological measures that legally restrict others from doing
+    anything the license permits.
+
+This is a human-readable summary of (and not a substitute for) the
+license. The full legal text is available at:
+
+    https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+and the summary deed at:
+
+    https://creativecommons.org/licenses/by-sa/4.0/
+
+Unless required by applicable law or agreed to in writing, the material
+is provided "as is", without warranties or conditions of any kind, to
+the extent permitted by the applicable law.
+
+================================================================================
+Attribution and provenance
+================================================================================
+
+This project builds on the work of others, as CC BY-SA 4.0 requires it
+to acknowledge.
+
+Quotation dataset
+-----------------
+The quotation dataset is derived from and adapted from the
+"literature-clock" project by Johannes Enevoldsen (JohannesNE), which is
+also licensed under CC BY-SA 4.0:
+
+    https://github.com/JohannesNE/literature-clock
+
+Changes were made: quotes have been added, removed, edited, and
+re-annotated (including the sfw / nsfw content ratings). Those
+modifications are the responsibility of this project, not of the
+original author.
+
+Concept
+-------
+The underlying idea — telling the time through quotations from
+literature — originated with a 2011 project at The Guardian and has been
+reimplemented many times since.
+
+Header image
+------------
+The fantasy-clock image is by KELLEPICS via Pixabay:
+
+    https://pixabay.com/photos/fantasy-time-magic-clock-dream-3517206/
