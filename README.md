@@ -35,7 +35,7 @@ https://quotingclock.com (the domain is configured via `public/CNAME`).
 
 ## Quote data
 
-The quotes live in `src/components/Clock/litclock_for_editing.csv`. Despite the
+The quotes live in `src/components/Clock/litclock.csv`. Despite the
 `.csv` extension, the file is **pipe-delimited** (quotes routinely contain
 commas), one quote per line, with these columns:
 
