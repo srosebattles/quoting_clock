@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 const mockQuotesCSV = (csvText) => {
-  global.fetch = jest.fn().mockResolvedValue({ text: () => Promise.resolve(csvText) });
+  global.fetch = vi.fn().mockResolvedValue({ text: () => Promise.resolve(csvText) });
 };
 
 afterEach(() => {

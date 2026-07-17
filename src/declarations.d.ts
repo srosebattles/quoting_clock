@@ -1,14 +1,5 @@
-declare module '*.png' {
-  const value: string;
-  export = value;
-}
+/// <reference types="vite/client" />
 
-declare module '*.jpg' {
-  const value: string;
-  export = value;
-}
-
-declare module '*.csv' {
-  const value: string;
-  export = value;
-}
+// Vite's `vite/client` types already cover asset imports (e.g. `*.jpg`,
+// `*.png`) and query suffixes like `*?url` and `*?raw`, which is how
+// `litclock.csv?url` resolves to its served URL.
