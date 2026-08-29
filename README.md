@@ -43,7 +43,7 @@ commas), one quote per line, with these columns:
 |---|-------------|----------------------------------|----------------------------------------------------|
 | 0 | Time        | `00:00`                          | 24-hour `HH:MM`; used to match the current minute  |
 | 1 | Time phrase | `midnight`                       | The words in the quote that name the time; shown in bold |
-| 2 | Quote       | `At midnight the entrances...`   | May contain `<br/>` for line breaks                |
+| 2 | Quote       | `At midnight the entrances...`   | Line breaks are written `<br/>` — always that form, not `<br>` or `<br />` |
 | 3 | Book title  | `Ben-Hur`                        |                                                    |
 | 4 | Author      | `Lew Wallace`                    |                                                    |
 | 5 | Rating      | `sfw` or `nsfw`                  | `nsfw` quotes only show when "show PG-13 quotes" is on |
@@ -51,6 +51,12 @@ commas), one quote per line, with these columns:
 To add a quote, append a line in that format. A literal `|` inside any field
 will break the column parsing, so don't use one. If several quotes share a
 time, one is picked at random each minute.
+
+The time phrase in column 1 must appear in the quote exactly as written —
+matching is case-insensitive but otherwise literal, so curly and straight
+apostrophes are not interchangeable. Where a quote has been shortened, an
+omission inside it is marked `[...]`; omissions at the start or end are left
+unmarked.
 
 ## Credits
 
