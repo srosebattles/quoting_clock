@@ -63,9 +63,10 @@ unmarked.
 - The quotation dataset is adapted from
   [JohannesNE/literature-clock](https://github.com/JohannesNE/literature-clock)
   by Johannes Enevoldsen, licensed under
-  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). It has
-  been modified here (quotes added, removed, edited, and re-annotated with
-  sfw/nsfw ratings).
+  [CC BY-NC-SA 2.5](https://creativecommons.org/licenses/by-nc-sa/2.5/), which
+  in turn credits Jaap Meijers' e-reader literary clock. It has been modified
+  here (quotes added, removed, edited, and re-annotated with sfw/nsfw
+  ratings).
 - The concept of a clock told through literary quotations originated with a
   2011 project at The Guardian.
 - The clock image is by
@@ -73,7 +74,15 @@ unmarked.
 
 ## License
 
-This project — both its source code and its quotation dataset — is licensed
-under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/),
-inherited from the upstream dataset's share-alike terms. See
-[`LICENSE`](./LICENSE) for details and full attribution.
+Two licenses, because the two parts have different origins:
+
+- **Source code** — [MIT](https://opensource.org/licenses/MIT). Original work
+  of this project, freely reusable including commercially.
+- **Quotation dataset** (`src/components/Clock/litclock.csv`) —
+  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). The
+  non-commercial condition is inherited from the upstream collection, not
+  added here; CC BY-NC-SA 2.5 §4(b) permits redistributing an adaptation
+  under a later version of the same license.
+
+The dataset's non-commercial condition does not extend to the code. See
+[`LICENSE`](./LICENSE) for the full terms and attribution.
