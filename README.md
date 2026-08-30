@@ -43,7 +43,7 @@ commas), one quote per line, with these columns:
 |---|-------------|----------------------------------|----------------------------------------------------|
 | 0 | Time        | `00:00`                          | 24-hour `HH:MM`; used to match the current minute  |
 | 1 | Time phrase | `midnight`                       | The words in the quote that name the time; shown in bold |
-| 2 | Quote       | `At midnight the entrances...`   | May contain `<br/>` for line breaks                |
+| 2 | Quote       | `At midnight the entrances...`   | Line breaks are written `<br/>` — always that form, not `<br>` or `<br />` |
 | 3 | Book title  | `Ben-Hur`                        |                                                    |
 | 4 | Author      | `Lew Wallace`                    |                                                    |
 | 5 | Rating      | `sfw` or `nsfw`                  | `nsfw` quotes only show when "show PG-13 quotes" is on |
@@ -52,14 +52,21 @@ To add a quote, append a line in that format. A literal `|` inside any field
 will break the column parsing, so don't use one. If several quotes share a
 time, one is picked at random each minute.
 
+The time phrase in column 1 must appear in the quote exactly as written —
+matching is case-insensitive but otherwise literal, so curly and straight
+apostrophes are not interchangeable. Where a quote has been shortened, an
+omission inside it is marked `[...]`; omissions at the start or end are left
+unmarked.
+
 ## Credits
 
 - The quotation dataset is adapted from
   [JohannesNE/literature-clock](https://github.com/JohannesNE/literature-clock)
   by Johannes Enevoldsen, licensed under
-  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). It has
-  been modified here (quotes added, removed, edited, and re-annotated with
-  sfw/nsfw ratings).
+  [CC BY-NC-SA 2.5](https://creativecommons.org/licenses/by-nc-sa/2.5/), which
+  in turn credits Jaap Meijers' e-reader literary clock. It has been modified
+  here (quotes added, removed, edited, and re-annotated with sfw/nsfw
+  ratings).
 - The concept of a clock told through literary quotations originated with a
   2011 project at The Guardian.
 - The clock image is by
@@ -67,7 +74,15 @@ time, one is picked at random each minute.
 
 ## License
 
-This project — both its source code and its quotation dataset — is licensed
-under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/),
-inherited from the upstream dataset's share-alike terms. See
-[`LICENSE`](./LICENSE) for details and full attribution.
+Two licenses, because the two parts have different origins:
+
+- **Source code** — [MIT](https://opensource.org/licenses/MIT). Original work
+  of this project, freely reusable including commercially.
+- **Quotation dataset** (`src/components/Clock/litclock.csv`) —
+  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). The
+  non-commercial condition is inherited from the upstream collection, not
+  added here; CC BY-NC-SA 2.5 §4(b) permits redistributing an adaptation
+  under a later version of the same license.
+
+The dataset's non-commercial condition does not extend to the code. See
+[`LICENSE`](./LICENSE) for the full terms and attribution.
