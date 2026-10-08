@@ -23,10 +23,13 @@ Run every command from the repository root.
 2. `npm run quotes:extract` downloads the books and writes `.work/out/candidates.json` and `candidates.md`. It skips passages already in the dataset and keeps at most two candidates per book per minute.
    `-- --books 2701,11` limits the run to some books, and `-- --per-slot 1` keeps fewer candidates.
    Re-running `extract` renumbers the candidates, so start a fresh `decisions.json` afterward.
+   Books are downloaded once and reused from `.work/texts/`. A book without Gutenberg's end-of-book marker gets a warning and is downloaded again on each run.
 3. Review pass: read `candidates.md` and write `.work/out/decisions.json` using the rules below.
 4. `npm run quotes:render` writes `.work/quote-review.md`, with each quote numbered and its time phrase bolded.
 5. Record cuts (`"drop": "cut by reviewer"`) and changes in `decisions.json`, then render again.
 6. `npm run quotes:merge -- --dry-run` shows what would be added. Run it again without `--dry-run` to add the rows to `litclock.csv` in time order. `-- --drop 3,17` skips candidates without editing `decisions.json`.
+
+`extract`, `render`, and `merge` read the dataset from `src/components/Clock/litclock.csv` unless you pass `-- --dataset path/to/other.csv`. For `merge`, `-- --csv path/to/other.csv` does the same thing: `merge` reads that file and adds the rows to it.
 
 ## decisions.json
 

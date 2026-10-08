@@ -37,8 +37,11 @@ export async function downloadBook(id: number, dir: string): Promise<string> {
   if (await isComplete(file)) return file;
   for (let attempt = 1; attempt <= 6; attempt++) {
     try {
-      // Transfers through this session's proxy sometimes drop partway; -C - resumes them.
-      await run('curl', ['-sS', '--fail', '--http1.1', '-C', '-', '--max-time', '180', '-o', file, url]);
+      // Transfers through this session's proxy sometimes drop partway, so retries resume with -C -.
+      // The first attempt starts over: a leftover file may already be whole, just without an
+      // end-of-book marker, and resuming it would fail with "range not satisfiable".
+      const resume = attempt > 1 ? ['-C', '-'] : [];
+      await run('curl', ['-sS', '--fail', '--http1.1', ...resume, '--max-time', '180', '-o', file, url]);
       if (!(await isComplete(file))) console.warn(`  pg${id}: downloaded, but found no end-of-book marker`);
       return file;
     } catch (err) {
