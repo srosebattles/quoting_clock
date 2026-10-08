@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'vitest';
+import { findApproximation, placeNear } from '../src/approx.ts';
 import { duplicateFinder, parseRows, rowProblems } from '../src/dataset.ts';
 import { excerpt, isHeading, parseBook, sentenceSpans } from '../src/text.ts';
 import { findTimes, formatTime, resolveTimes } from '../src/times.ts';
@@ -115,4 +116,16 @@ test('validates rows and spots existing quotes', () => {
   const find = duplicateFinder([row]);
   assert.equal(find('“It was half-past nine and the house was still asleep,” she said.'), row);
   assert.equal(find('It was half-past nine and the dogs were barking in the yard.'), undefined);
+});
+
+test('places approximate times near the named minute, in the emptiest slot', () => {
+  const quote = 'I went up stairs at nearly eleven o’clock, feeling sleepy.';
+  const approx = findApproximation(quote, 'eleven o’clock');
+  assert.deepEqual(approx, { phrase: 'nearly eleven o’clock', from: -15, to: -1 });
+  const counts = new Map([['22:59', 3], ['22:58', 1], ['22:57', 0]]);
+  assert.equal(placeNear('23:00', approx!, counts), '22:57');
+  assert.equal(counts.get('22:57'), 1);
+  assert.deepEqual(findApproximation('It was just after eight o’clock.', 'eight o’clock')?.from, 1);
+  assert.equal(findApproximation('At eight o’clock he came.', 'eight o’clock'), undefined);
+  assert.equal(placeNear('00:05', { phrase: 'x', from: -15, to: -1 }, new Map()), '00:04');
 });

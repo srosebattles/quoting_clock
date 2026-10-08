@@ -7,6 +7,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
+import { findApproximation, placeNear } from './approx.ts';
 import { BOOKS, type Book } from './books.ts';
 import { duplicateFinder, formatRow, nameKey, parseRows, rowProblems, slotCounts, type Row, type Slot } from './dataset.ts';
 import { downloadBook, excerpt, isHeading, parseBook } from './text.ts';
@@ -55,6 +56,8 @@ interface Decision {
   quote?: string;
   rating?: 'sfw' | 'nsfw';
   note?: string;
+  /** Keep `times` as given even if the phrase says "nearly" or "just after". */
+  exact?: boolean;
 }
 
 interface Reviewed {
@@ -65,6 +68,8 @@ interface Reviewed {
   rating: 'sfw' | 'nsfw';
   dropped?: string;
   note?: string;
+  /** Set when an approximate time ("nearly eleven") was moved off the named minute. */
+  placed?: string;
   problems: string[];
 }
 
@@ -177,10 +182,11 @@ async function extract(datasetPath: string, perSlot: number, only?: Set<number>)
   console.log(`\n${candidates.length} candidates written to ${CANDIDATES_MD}`);
 }
 
-function applyDecisions(candidates: Candidate[], decisions: Record<string, Decision>): Reviewed[] {
+function applyDecisions(candidates: Candidate[], decisions: Record<string, Decision>, slots: Map<string, Slot>): Reviewed[] {
   const ids = new Set(candidates.map((c) => String(c.id)));
   const unknown = Object.keys(decisions).filter((id) => !ids.has(id));
   if (unknown.length) throw new Error(`decisions.json mentions unknown candidates: ${unknown.join(', ')}`);
+  const counts = new Map([...slots].map(([time, slot]): [string, number] => [time, slot.total]));
   return candidates.map((candidate) => {
     const d = decisions[candidate.id] ?? {};
     const reviewed: Reviewed = {
@@ -193,6 +199,15 @@ function applyDecisions(candidates: Candidate[], decisions: Record<string, Decis
       note: d.note,
       problems: [],
     };
+    const approx = d.exact || d.drop ? undefined : findApproximation(reviewed.quote, reviewed.phrase);
+    if (approx) {
+      const named = reviewed.times;
+      reviewed.phrase = approx.phrase;
+      reviewed.times = named.map((t) => placeNear(t, approx, counts));
+      reviewed.placed = `“${approx.phrase}”, so moved from ${named.join(' and ')}`;
+    } else if (!reviewed.dropped) {
+      for (const t of reviewed.times) counts.set(t, (counts.get(t) ?? 0) + 1);
+    }
     reviewed.problems = reviewed.times.length ? [...new Set(rowsOf(reviewed).flatMap(rowProblems))] : ['no times'];
     return reviewed;
   });
@@ -220,7 +235,8 @@ function reviewEntry(r: Reviewed, slots: Map<string, Slot>): string {
   const notes = [
     `already at ${r.times.length > 1 ? 'these minutes' : 'this minute'}: ${r.times.map((t) => slots.get(t)?.total ?? 0).join(' and ')}`,
     r.times.length > 1 && 'could be a.m. or p.m., so it goes in at both',
-    r.times.length === 1 && !decidedTimes && r.candidate.ampm === 'inferred' && 'a.m. or p.m. inferred from context',
+    r.times.length === 1 && !decidedTimes && !r.placed && r.candidate.ampm === 'inferred' && 'a.m. or p.m. inferred from context',
+    r.placed,
     ...r.candidate.flags.map((f) => FLAG_NOTES[f] ?? f),
     r.note,
     ...r.problems.map((p) => `⚠ ${p}`),
@@ -256,15 +272,15 @@ function reviewMarkdown(reviewed: Reviewed[], slots: Map<string, Slot>): string 
   return `${out.join('\n')}\n`;
 }
 
-async function loadReviewed(): Promise<Reviewed[]> {
+async function loadReviewed(slots: Map<string, Slot>): Promise<Reviewed[]> {
   const candidates = await readJson<Candidate[]>(CANDIDATES_FILE);
   const decisions = existsSync(DECISIONS_FILE) ? await readJson<Record<string, Decision>>(DECISIONS_FILE) : {};
-  return applyDecisions(candidates, decisions);
+  return applyDecisions(candidates, decisions, slots);
 }
 
 async function render(datasetPath: string): Promise<void> {
-  const reviewed = await loadReviewed();
   const slots = slotCounts(parseRows(await readFile(datasetPath, 'utf8')));
+  const reviewed = await loadReviewed(slots);
   await writeFile(REVIEW_FILE, reviewMarkdown(reviewed, slots));
   const kept = reviewed.filter((r) => !r.dropped);
   console.log(`${kept.length} quotes in ${REVIEW_FILE}; ${reviewed.length - kept.length} cut`);
@@ -272,7 +288,8 @@ async function render(datasetPath: string): Promise<void> {
 }
 
 async function merge(csvPath: string, drop: Set<number>, dryRun: boolean): Promise<void> {
-  const reviewed = await loadReviewed();
+  const original = await readFile(csvPath, 'utf8');
+  const reviewed = await loadReviewed(slotCounts(parseRows(original)));
   const unknown = [...drop].filter((id) => !reviewed.some((r) => r.candidate.id === id));
   if (unknown.length) throw new Error(`--drop mentions unknown candidates: ${unknown.join(', ')}`);
   const accepted = reviewed.filter((r) => !r.dropped && !drop.has(r.candidate.id));
@@ -282,10 +299,10 @@ async function merge(csvPath: string, drop: Set<number>, dryRun: boolean): Promi
     throw new Error('Fix these in decisions.json (or drop them) before merging.');
   }
 
-  const original = await readFile(csvPath, 'utf8');
   const lines = original.split('\n').filter((line) => line.trim());
-  const existing = new Set(parseRows(original).map((r) => `${r.time}|${r.quote}`));
-  const added = accepted.flatMap(rowsOf).filter((r) => !existing.has(`${r.time}|${r.quote}`));
+  // Match on title and quote, not time, so re-running a merge never adds a quote twice.
+  const existing = new Set(parseRows(original).map((r) => `${r.title}|${r.quote}`));
+  const added = accepted.flatMap(rowsOf).filter((r) => !existing.has(`${r.title}|${r.quote}`));
   // The file is sorted by time; a stable sort keeps each minute's existing order and puts new quotes after it.
   const merged = [...lines, ...added.map(formatRow)].sort((a, b) => a.slice(0, 5).localeCompare(b.slice(0, 5)));
   if (!dryRun) await writeFile(csvPath, merged.join('\n') + (original.endsWith('\n') ? '\n' : ''));

@@ -37,9 +37,14 @@ This file is keyed by candidate number. Any candidate it doesn't list goes in un
   "3": { "drop": "an age, not a time" },
   "8": { "times": ["21:00"] },
   "12": { "rating": "nsfw" },
-  "15": { "quote": "…", "phrase": "…", "note": "shortened" }
+  "15": { "quote": "…", "phrase": "…", "note": "shortened" },
+  "20": { "times": ["22:00"], "exact": true }
 }
 ```
+
+### Approximate times
+
+When a word like "nearly," "almost," "towards," or "hard upon" comes right before the time phrase, `render` and `merge` move the quote into the fifteen minutes before the named time. "After," "just after," or "past" moves it into the fifteen minutes after, and "long after" or "well past" moves it twenty to sixty minutes after. Within that window the quote goes to the minute with the fewest quotes, counting quotes already placed in the same run. The modifier joins the bolded phrase ("nearly eleven o’clock"). "About" leaves the time alone, and `"exact": true` in `decisions.json` keeps the given `times`.
 
 ## Review-pass rules
 
