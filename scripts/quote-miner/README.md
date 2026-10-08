@@ -45,7 +45,7 @@ This file is keyed by candidate number. Any candidate it doesn't list goes in un
 
 - Drop a candidate when its phrase isn't a clock time (an age, a count, odds, a range such as "from ten to twelve," or a chapter title) or when the excerpt makes no sense on its own.
 - Drop noon or midnight used figuratively ("the noon of life") unless the passage is striking.
-- a.m. or p.m.: for a `both` candidate, ask whether the people in the passage would realistically be doing this in the small hours (catching a train, keeping an appointment, doing accounts). If not, set `times` to the daytime or evening reading even without an explicit clue. Leave both only when both readings are genuinely plausible. Check every `inferred` candidate too.
+- a.m. or p.m.: when one reading of a `both` candidate falls in the small hours (roughly midnight to six) and the activity is implausible then (guests arriving by train at 3.40, a checkout before twelve), set `times` to the other reading even without an explicit clue. When both readings are ordinary waking hours, such as seven or nine, leave both unless the passage settles it. Check every `inferred` candidate too.
 - Rate a quote `nsfw` for sexual content, graphic violence, or strong profanity. These quotes show only when the clock's "show PG-13 quotes" setting is on.
 - Edit a quote only to fix where the excerpt starts or ends, and never reword it. Mark omissions inside a quote with `[...]` and leave omissions at the start or end unmarked. The time phrase must stay in the quote exactly as written. Don't use `|`, and write line breaks as `<br/>`.
 - `book-has-time` means the dataset already has a quote from this book at that minute, possibly in another translation. Drop the candidate if it's the same passage.
