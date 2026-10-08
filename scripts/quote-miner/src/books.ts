@@ -19,7 +19,7 @@ export const BOOKS: Book[] = [
   { id: 2465, title: 'Carmen', author: 'Prosper Mérimée' },
   { id: 67979, title: 'The Blue Castle', author: 'L.M. Montgomery' },
   { id: 2868, title: 'The Green Mummy', author: 'Fergus Hume' },
-  { id: 11, title: "Alice's Adventures in Wonderland", author: 'Lewis Carroll', aliases: ['Alice in Wonderland'] },
+  { id: 11, title: "Alice's Adventures in Wonderland", author: 'Lewis Carroll' },
   { id: 1695, title: 'The Man Who Was Thursday', author: 'G.K. Chesterton' },
   // Left out because the dataset already has several quotes from them:
   // { id: 1342, title: 'Pride and Prejudice', author: 'Jane Austen' },                 // 8
