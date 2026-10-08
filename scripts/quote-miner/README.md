@@ -23,10 +23,13 @@ Run every command from the repository root.
 2. `npm run quotes:extract` downloads the books and writes `.work/out/candidates.json` and `candidates.md`. It skips passages already in the dataset and keeps at most two candidates per book per minute.
    `-- --books 2701,11` limits the run to some books, and `-- --per-slot 1` keeps fewer candidates.
    Re-running `extract` renumbers the candidates, so start a fresh `decisions.json` afterward.
+   Books are downloaded once and reused from `.work/texts/`. A book without Gutenberg's end-of-book marker gets a warning and is downloaded again on each run.
 3. Review pass: read `candidates.md` and write `.work/out/decisions.json` using the rules below.
 4. `npm run quotes:render` writes `.work/quote-review.md`, with each quote numbered and its time phrase bolded.
 5. Record cuts (`"drop": "cut by reviewer"`) and changes in `decisions.json`, then render again.
 6. `npm run quotes:merge -- --dry-run` shows what would be added. Run it again without `--dry-run` to add the rows to `litclock.csv` in time order. `-- --drop 3,17` skips candidates without editing `decisions.json`.
+
+`extract`, `render`, and `merge` read the dataset from `src/components/Clock/litclock.csv` unless you pass `-- --dataset path/to/other.csv`. For `merge`, `-- --csv path/to/other.csv` does the same thing: `merge` reads that file and adds the rows to it.
 
 ## decisions.json
 
@@ -51,7 +54,7 @@ When a word like "nearly," "almost," "towards," or "hard upon" comes right befor
 - Drop a candidate when its phrase isn't a clock time (an age, a count, odds, a range such as "from ten to twelve," or a chapter title) or when the excerpt makes no sense on its own.
 - Drop noon or midnight used figuratively ("the noon of life") unless the passage is striking.
 - a.m. or p.m.: when one reading of a `both` candidate falls in the small hours (roughly midnight to six) and the activity is implausible then (guests arriving by train at 3.40, a checkout before twelve), set `times` to the other reading even without an explicit clue. When both readings are ordinary waking hours, such as seven or nine, leave both unless the passage settles it. Check every `inferred` candidate too.
-- Rate a quote `nsfw` for sexual content, graphic violence, or strong profanity. These quotes show only when the clock's "show PG-13 quotes" setting is on.
+- Rate a quote `nsfw` for sexual content, graphic violence, strong profanity, any drug stronger than alcohol (opium, laudanum, a sleeping draught), or any reference to suicide, even one that happens offstage. These quotes show only when the clock's "show PG-13 quotes" setting is on.
 - Edit a quote only to fix where the excerpt starts or ends, and never reword it. Mark omissions inside a quote with `[...]` and leave omissions at the start or end unmarked. The time phrase must stay in the quote exactly as written. Don't use `|`, and write line breaks as `<br/>`.
 - `book-has-time` means the dataset already has a quote from this book at that minute, possibly in another translation. Drop the candidate if it's the same passage.
 - Aim for quotes of about 150 to 350 characters.
