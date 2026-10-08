@@ -58,6 +58,14 @@ apostrophes are not interchangeable. Where a quote has been shortened, an
 omission inside it is marked `[...]`; omissions at the start or end are left
 unmarked.
 
+### Mining quotes from Project Gutenberg
+
+`scripts/quote-miner` finds time quotes in Gutenberg books, writes a numbered
+review file, and adds the approved quotes to `litclock.csv`. Run it with
+`npm run quotes:extract`, `npm run quotes:render`, and `npm run quotes:merge`.
+See [`scripts/quote-miner/README.md`](./scripts/quote-miner/README.md) for the
+workflow.
+
 ## Credits
 
 - The quotation dataset is adapted from

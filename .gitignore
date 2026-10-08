@@ -22,3 +22,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# quote-miner downloads and working files
+/scripts/quote-miner/.work
